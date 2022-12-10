@@ -4,6 +4,9 @@ require 'parallel'
 require 'tty-progressbar'
 # require 'byebug'
 
+STDOUT.sync = true
+IO.synte = true
+
 # Servers list
 SERVERS = SERVERS_TO_REPLACE
 
@@ -40,9 +43,7 @@ Parallel.each(SERVERS, in_threads: SERVERS.length) do |ip, names|
     cmd = "mina #{command_argument} -f #{c_dir}/#{c_file_name}"
     cmd = `#{cmd}`
 
-    log_file = File.new("#{l_dir}/#{l_file_name}")
-    log_file.sync = true
-    logger = Logger.new(log_file)
+    logger = Logger.new("#{l_dir}/#{l_file_name}")
     logger.info(cmd)
 
     report += "#{site} ✗ " if cmd.include?('ERROR')
