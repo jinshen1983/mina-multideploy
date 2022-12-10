@@ -4,6 +4,8 @@ require 'parallel'
 require 'tty-progressbar'
 # require 'byebug'
 
+$stdout.sync = true
+
 # Servers list
 SERVERS = SERVERS_TO_REPLACE
 
@@ -44,7 +46,7 @@ Parallel.each(SERVERS, in_threads: SERVERS.length) do |ip, names|
     logger.info(cmd)
 
     report += "#{site} ✗ " if cmd.include?('ERROR')
-  
+
     bar.advance(report: report)
   end
 end
